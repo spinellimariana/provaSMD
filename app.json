@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "provaSMD",
+    "slug": "provaSMD",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "provaSMD"
+}
