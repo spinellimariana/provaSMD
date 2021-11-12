@@ -1,92 +1,154 @@
-/*
-Aluna: Mariana Lima Alves de Almeida Spinelli - ID: 1142194997
-Turma: TADS - 3o Semestre (Noturno)
-Disciplina: Sistemas Móveis Distribuídos - Prof. Calixto
-*/
-
 import * as React from 'react';
-import {Text, View, StyleSheet, Image, Button} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Pressable,
+  Image,
+  Modal,
+} from 'react-native';
 import Constants from 'expo-constants';
 
-//função que faz o fetch
 async function executeGet(url, jsonState) {
+  //get síncrono com o uso do fetch
   await fetch(url)
-    .then(response => {
+    .then((response) => {
       if (response.status === 200) {
         //console.log('sucesso');
-        response.json().then(function (message) {
-
+        response.json().then(function (result) {
           //console.log(result);
-          jsonState(message)
-
+          jsonState(result);
         });
       } else {
         throw new Error('Erro ao consumir a API!');
       }
     })
-} //fim do execute get
+    .then((response) => {
+      //console.debug(response);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
-export default function App() {
+const ShowDetalhes = ({ display, toogleModal, mensagem }) => (
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={display}
+    onRequestClose={toogleModal}>
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+        <Pressable onPress={toogleModal}>
+          <Text>{mensagem}</Text>
+        </Pressable>
+      </View>
+    </View>
+  </Modal>
+);
+//3) deixar compatível com os itens 1 e 2
+const Pessoa = ({ nome, email, link, price }) => {
+  //state para controle do Modal
+  const [modal, setModal] = React.useState(false);
 
-  const [jsonData, setJsonData] = React.useState({})
-  
-  //useEffect para não ficar atualizando sem parar
-  React.useEffect(() => {
-    executeGet("https://dog.ceo/api/breeds/image/random", setJsonData);
-  }, [])
-
-  var dogs = jsonData.message
-  //colocando a informação numa variável.
+  function mudaModal() {
+    setModal(!modal);
+  }
 
   return (
+    <View>
+      <ShowDetalhes display={modal} toogleModal={mudaModal} mensagem={price} />
 
-    <View style={styles.container}>
-      <Text style={styles.titulo}>RANDOM DOGS</Text>
-      <Image style={styles.tinyLogo} source={{ uri: dogs }} //retornando a info armazenada na variável para a tela
-      />
-      <Text style={styles.texto}>Somos uma fonte inesgotável de imagens de cachorros fofinhos!
-        Aperte o botão azul para mudar!</Text>
+      <Pressable onPress={mudaModal}>
+        <Image style={styles.tinyLogo} source={{ uri: link }} />
 
-      <Button 
-        title="TROCA!"
-        onPress={() => executeGet("https://dog.ceo/api/breeds/image/random", setJsonData)}
-        //cada vez que aberta o botão executa o fetch novamente
-      />
-
+        <Text style={styles.paragraph}>{nome}</Text>
+        <Text style={styles.parag}>{email}</Text>
+      </Pressable>
     </View>
-  )
-} // fim do metodo de consumir a api
+  );
+};
 
+export default function App() {
+  const [jsonData, setJsonData] = React.useState({});
+  //1) trocar a url abaixo
+  executeGet('https://mocki.io/v1/72132831-bb87-4594-a340-8bccad86bffb', setJsonData);
 
-//FOLHA DE ESTILOS
+  //função que renderiza cada item do FlatList
+  function meuItem({ item }) {
+    return (
+      <Pessoa
+        nome={item.Nome}
+        link={item.img}
+        email={item.Forma}
+        price={item.Fabricante}
+      />
+    );
+  }
 
+  //2) depois de trocar a url mexer aqui no pessoa deixando compatível (olhar acima o passo 3)
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={jsonData}
+        renderItem={meuItem}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
+  );
+}
+
+//4) arrumar aqui para os estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#E6E3E8',
-    padding: 50,
+    backgroundColor: '#ecf0f1',
+    padding: 8,
   },
-  tinyLogo: {
-    width: 200,
-    height: 200,
-    alignSelf: 'center',
-    margin: 100,
-  },
-  titulo: {
-    fontFamily: 'sans-serif',
-    margin: 24,
-    fontSize: 20,
+  paragraph: {
+    margin: 12,
+    padding: 12,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: 'black',
+    backgroundColor: 'black',
+    color: 'white',
   },
-  texto: {
-    fontFamily: 'sans-serif',
+  parag: {
     margin: 12,
-    fontSize: 14,
-    textAlign: 'justify',
-
-  }
+    padding: 12,
+    fontSize: 12,
+    //color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    //backgroundColor: 'black'
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+    alignSelf: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

@@ -1,0 +1,37 @@
+[
+    {
+       "id":"1",
+       "Nome":"Paracetamol",
+       "Fabricante":"Medley",
+       "Forma":"Comprimidos",
+       "img":"https://drogariasp.vteximg.com.br/arquivos/ids/459091-1000-1000/10227---paracetamol-750mg-20-comprimidos-generico.png?v=637574701472630000"
+    },
+    {
+       "id":"2",
+       "Nome":"Dipirona",
+       "Fabricante":"EMS",
+       "Forma":"Gotas",
+       "img":"https://io2.convertiez.com.br/m/drogal/shop/products/images/672637/large/dipirona-500mg-gts-20ml-gmdl_6244.jpg"
+    },
+    {
+       "id":"3",
+       "Nome":"Prednisona",
+       "Fabricante":"Nova Quimica",
+       "Forma":"Comprimidos",
+       "img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVocDjtYr1hEGwWXjHJyC8n1Ur5tM8mmdqtQ&usqp=CAU"
+    },
+    {
+       "id":"4",
+       "Nome":"Salonpas",
+       "Fabricante":"Hisamitsu",
+       "Forma":"Patch Adesivo",
+       "img":"https://br.hisamitsu/wp-content/uploads/2017/05/Salonpas_Pain_Relief_Patch.jpg"
+    },
+    {
+       "id":"5",
+       "Nome":"Estomazil",
+       "Fabricante":"Medley",
+       "Forma":"Pó Efervescente",
+       "img":"https://www.estomazil.com.br/images/produtos/sache-sem-sabor.png"
+    }
+ ]
