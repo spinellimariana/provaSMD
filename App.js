@@ -2,7 +2,7 @@
 Aluna: Mariana Lima Alves de Almeida Spinelli - ID: 1142194997
 Turma: TADS - 3o Semestre (Noturno)
 Disciplina: Sistemas Móveis Distribuídos - Prof. Calixto
-*/
+ */
 
 import * as React from 'react';
 import {Text, View, StyleSheet, Image, Button} from 'react-native';
